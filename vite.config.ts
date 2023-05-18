@@ -6,7 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
 
 // https://vitejs.dev/config/
-export default defineConfig(({mode}) => {
+export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
@@ -20,7 +20,24 @@ export default defineConfig(({mode}) => {
         srcDir: 'src',
         filename: 'service-worker.ts',
         manifest: {
-
+          name: 'Rockstar PWA + Push Showcase',
+          short_name: 'Rockstar PWA',
+          start_url: '/rockstar-pwa-push/',
+          display: 'standalone',
+          theme_color: '#ffffff',
+          background_color: '#ffffff',
+          icons: [
+            {
+              src: 'icon.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'icon.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
         },
         injectRegister: 'auto',
         devOptions: {
@@ -29,8 +46,7 @@ export default defineConfig(({mode}) => {
         },
       }),
     ],
-    resolve: {
-    },
+    resolve: {},
     css: {
       devSourcemap: true,
       modules: {
