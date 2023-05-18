@@ -5,10 +5,15 @@ This is a simple proof of concept that demonstrates the capabilities of Push Not
 ## 💥 Features
 
 ✨ Installable on mobile and desktop devices. Mobile Safari compatible
+
 ✨ Utilizes the power of the Push API to enable push notifications
+
 ✨ Leveraging the Notification API to display user-friendly notifications
+
 ✨ Demonstrates the usage of the Badge API for adding badges to the app (mobile only)
+
 ✨ Written in TypeScript. Powered by ViteJS
+
 ✨ Utilizes GitHub Actions for building and deployment
 
 ## 🎬 Demo
