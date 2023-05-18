@@ -36,7 +36,7 @@ const showNotification = async () => {
 
   return self.registration.showNotification('Test Notification', {
     body: 'You should feel vibrations',
-    icon: '/icon.png',
+    icon: './icon.png',
     vibrate: [200, 100, 200, 100, 200, 100, 200],
   });
 };
