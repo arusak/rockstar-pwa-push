@@ -1,5 +1,7 @@
-import './App.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { LogView } from 'components/LogView/LogView';
+import s from 'App.module.css';
+import { Check } from 'components/Check/Check';
 
 function App() {
   const [showRequestButton, setShowRequestButton] = useState(!(window.Notification?.permission === 'granted'));
@@ -27,17 +29,25 @@ function App() {
   };
 
   return (
-    <div>
-      <div>
+    <div className={s.wrapper}>
+      <div className={s.buttons}>
         {showRequestButton && <button onClick={requestNotificationPermission}>
           Request notifications permission
         </button>}
-      </div>
-      <div>
         {permissionGranted && <button onClick={sendNotification}>
           Send notification
-        </button>
-        }
+        </button>}
+      </div>
+
+      <LogView className={s.log}/>
+
+      <div className={s.support}>
+        <h1>Your browser's supported APIs:</h1>
+        <div className={s.apis}>
+        <div className={s.api}><Check checked={'Notification' in window}/> Notification</div>
+        <div className={s.api}><Check checked={'PushManager' in window}/> Push</div>
+        <div className={s.api}><Check checked={'setAppBadge' in window.navigator}/> Badging</div>
+        </div>
       </div>
     </div>
   );

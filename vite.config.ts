@@ -24,18 +24,20 @@ export default defineConfig(({ mode }) => {
           short_name: 'Rockstar PWA',
           start_url: '/rockstar-pwa-push/',
           display: 'standalone',
-          theme_color: '#ffffff',
-          background_color: '#ffffff',
+          theme_color: '#f5ba22',
+          background_color: '#f5ba22',
           icons: [
             {
               src: 'icon.png',
               sizes: '192x192',
               type: 'image/png',
+              purpose: 'maskable'
             },
             {
               src: 'icon.png',
               sizes: '512x512',
               type: 'image/png',
+              purpose: 'maskable'
             },
           ],
         },
@@ -68,6 +70,7 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: 'build',
+      sourcemap: 'inline'
     },
     preview: {
       port: 8080,

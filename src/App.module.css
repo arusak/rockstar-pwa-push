@@ -1,0 +1,39 @@
+.wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.buttons {
+  background: #f5ba22;
+  padding: 1rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo {
+  height: 32px;
+  aspect-ratio: 1;
+}
+
+.log {
+  overflow: auto;
+}
+
+.support {
+  background: #de53da;
+  padding: 0.5rem 0.5rem 1rem;
+}
+
+.apis {
+  display: flex;
+  gap: 2px
+}
+
+.api {
+  background: rgb(0 0 0 / 10%);
+  border-radius: 2px;
+  padding: 2px 4px;
+}
