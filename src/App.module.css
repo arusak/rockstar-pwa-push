@@ -10,7 +10,7 @@
   background: #f5ba22;
   padding: 1rem 0.5rem;
   display: flex;
-  justify-content: space-between;
+  gap: 0.25rem;
 }
 
 .logo {

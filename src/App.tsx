@@ -15,7 +15,7 @@ function App() {
     }
   };
 
-  const sendNotification = async () => {
+  const sendLocalNotification = async () => {
     if (!navigator.serviceWorker) {
       console.warn('Service worker not installed');
       return;
@@ -28,14 +28,30 @@ function App() {
     );
   };
 
+  const requestPush = async () => {
+    if (!navigator.serviceWorker) {
+      console.warn('Service worker not installed');
+      return;
+    }
+
+    const registration = await navigator.serviceWorker?.ready;
+
+    registration.active?.postMessage(
+      { type: 'REQUEST_PUSH' }
+    );
+  };
+
   return (
     <div className={s.wrapper}>
       <div className={s.buttons}>
         {showRequestButton && <button onClick={requestNotificationPermission}>
           Request notifications permission
         </button>}
-        {permissionGranted && <button onClick={sendNotification}>
-          Send notification
+        {permissionGranted && <button onClick={sendLocalNotification}>
+          Show local notification
+        </button>}
+        {permissionGranted && <button onClick={requestPush}>
+          Request push from server
         </button>}
       </div>
 
@@ -44,9 +60,9 @@ function App() {
       <div className={s.support}>
         <h1>Your browser's supported APIs:</h1>
         <div className={s.apis}>
-        <div className={s.api}><Check checked={'Notification' in window}/> Notification</div>
-        <div className={s.api}><Check checked={'PushManager' in window}/> Push</div>
-        <div className={s.api}><Check checked={'setAppBadge' in window.navigator}/> Badging</div>
+          <div className={s.api}><Check checked={'Notification' in window}/> Notification</div>
+          <div className={s.api}><Check checked={'PushManager' in window}/> Push</div>
+          <div className={s.api}><Check checked={'setAppBadge' in window.navigator}/> Badging</div>
         </div>
       </div>
     </div>
