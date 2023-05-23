@@ -3,10 +3,11 @@ import react from '@vitejs/plugin-react';
 import pathsPlugin from 'vite-tsconfig-paths';
 import checkerPlugin from 'vite-plugin-checker';
 import { VitePWA } from 'vite-plugin-pwa';
-import path from 'path';
+import { readFileSync } from 'fs';
+import { cssModulesDevClassNames } from './vite-css-modules-dev-classnames';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   return {
     plugins: [
       react(),
@@ -26,26 +27,18 @@ export default defineConfig(({ mode }) => {
           type: 'module',
         },
       }),
+      cssModulesDevClassNames()
     ],
     resolve: {},
     css: {
       devSourcemap: true,
-      modules: {
-        generateScopedName:
-          mode === 'production'
-            ? '[hash:base64:8]'
-            : (name, filename, css) => {
-              const i = css.indexOf('.' + name);
-              const line = css.substring(0, i).split(/[\r\n]/).length;
-              const file = path.basename(filename, '.module.css');
-
-              return `${file}_${name}_${String(line).padStart(3, '0')}`;
-            },
-      },
     },
-    assetsInclude: ['**/*.mov'],
     server: {
       port: 3000,
+      https: {
+        key: readFileSync('c:/users/captain/.openssl/localhost.key'),
+        cert: readFileSync('c:/users/captain/.openssl/localhost.crt'),
+      }
     },
     build: {
       outDir: 'build',
