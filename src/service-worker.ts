@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 
 import { precacheAndRoute } from 'workbox-precaching';
+import { clientsClaim, skipWaiting } from 'workbox-core';
 
 declare global {
   interface WorkerNavigator {
@@ -11,8 +12,12 @@ declare global {
 
 declare const self: ServiceWorkerGlobalScope;
 
+skipWaiting();
+clientsClaim();
+
 const sendLog = async (message: string) => {
-  const clients = await self.clients.matchAll();
+  console.info(message);
+  const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
 
   clients.forEach(client => {
     client.postMessage({
