@@ -21,7 +21,38 @@ export default defineConfig(({ mode }) => {
         strategies: 'injectManifest',
         srcDir: 'src',
         filename: 'service-worker.ts',
-        manifestFilename: 'manifest.json',
+        manifest: {
+          name: 'Rockstar PWA + Push Showcase',
+          short_name: 'Rockstar PWA',
+          start_url: '/rockstar-pwa-push/',
+          display: 'standalone',
+          theme_color: '#f5ba22',
+          background_color: '#f5ba22',
+          icons: [
+            {
+              src: 'icon192.png',
+              sizes: '192x192',
+              type: 'image/png',
+              purpose: 'maskable any'
+            },
+            {
+              src: 'icon512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'maskable any'
+            },
+            {
+              src: 'icon192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'icon512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+        },
         injectRegister: 'auto',
         devOptions: {
           enabled: true,
