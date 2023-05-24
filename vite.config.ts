@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
         strategies: 'injectManifest',
         srcDir: 'src',
         filename: 'service-worker.ts',
+        registerType: 'autoUpdate',
         manifest: {
           name: 'Rockstar PWA + Push Showcase',
           short_name: 'Rockstar PWA',

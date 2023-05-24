@@ -2,6 +2,7 @@
 
 import { precacheAndRoute } from 'workbox-precaching';
 import { clientsClaim } from 'workbox-core';
+import { registerPushSubscription, sendLog, showNotification, requestPush, showBadge } from './service-worker.utils';
 
 declare global {
   interface WorkerNavigator {
@@ -16,71 +17,13 @@ self.skipWaiting();
 clientsClaim();
 precacheAndRoute(self.__WB_MANIFEST);
 
-const sendLog = async (message: string) => {
-  console.info(message);
-  const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
+let subscription: PushSubscription | null = null;
 
-  clients.forEach(client => {
-    client.postMessage({
-      type: 'LOG',
-      message
-    });
-  });
-};
+self.addEventListener('activate', async () => {
+  sendLog('Sevice worker is active');
+  subscription = await registerPushSubscription();
+});
 
-const showBadge = (count: number): Promise<void> => {
-  if ('setAppBadge' in self.navigator) {
-    return self.navigator.setAppBadge(count);
-  }
-  return Promise.resolve();
-};
-
-let subscription: PushSubscription;
-
-const registerPush = async () => {
-  if ('pushManager' in self.registration && typeof self.registration.pushManager.subscribe === 'function') {
-    await sendLog('Registering a push subscription');
-    try {
-      subscription = await self.registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: import.meta.env.VITE_VAPID_KEY
-      });
-      await sendLog(`${JSON.stringify(subscription.toJSON(), null, 2)}`);
-    } catch (e) {
-      await sendLog(`Unable to subscribe. ${e}`);
-    }
-  }
-};
-
-const showNotification = async () => {
-  if (Notification.permission !== 'granted') {
-    sendLog('No permission to show notifications');
-    return;
-  }
-
-  try {
-    await self.registration.showNotification('Test Notification', {
-      body: 'You should feel vibrations',
-      icon: './icon.png',
-      vibrate: [200, 100, 200, 100, 200, 100, 200],
-    });
-    sendLog('Test notification is sent successfully');
-  } catch (e) {
-    sendLog(`Error sending test notification: ${e}`);
-  }
-};
-
-const requestPush = async () => {
-  const result = await fetch('https://rockstar-push.glitch.me/send-push', {
-    method: 'post',
-    body: JSON.stringify(subscription, null, 2),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const message = await result.text();
-  await sendLog(`Push request result: ${message}`);
-};
 
 self.addEventListener('message', (event) => {
   sendLog(`${event.data.type} event received by service worker`);
@@ -97,7 +40,11 @@ self.addEventListener('message', (event) => {
   }
 
   if (event.data && event.data.type === 'REQUEST_PUSH') {
-    event.waitUntil(requestPush());
+    if (subscription) {
+      event.waitUntil(requestPush(subscription));
+    } else {
+      event.waitUntil(sendLog('Unable to request a push: no subscription'));
+    }
   }
 });
 
@@ -117,6 +64,3 @@ self.addEventListener('push', (event) => {
 
   event.waitUntil(all);
 });
-
-sendLog('Initializing');
-registerPush();
