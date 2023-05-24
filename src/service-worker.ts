@@ -28,7 +28,7 @@ export const sendLog = async (message: string) => {
 
 export const showBadge = (count: number): Promise<void> => {
   if ('setAppBadge' in self.navigator) {
-    return self.navigator.setAppBadge(count);
+    return self.navigator.setAppBadge(count).then(() => sendLog('Badge displayed'));
   }
   sendLog('Badge API is not available');
   return Promise.resolve();
@@ -100,7 +100,6 @@ let subscription: PushSubscription | null = null;
 /** EVENT HANDLERS **/
 
 self.addEventListener('message', (event) => {
-  sendLog(`${event.data.type} event received by service worker`);
   if (event.data && event.data.type === 'SEND_NOTIFICATION') {
     const promises: Promise<unknown>[] = [];
 
@@ -123,7 +122,7 @@ self.addEventListener('message', (event) => {
 });
 
 self.addEventListener('push', (event) => {
-  sendLog(`Got push message: ${JSON.stringify(event.data?.json() || {}, null, 2)}`);
+  sendLog('Received a push message');
 
   const promises: Promise<unknown>[] = [];
 
