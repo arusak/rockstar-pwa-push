@@ -80,18 +80,24 @@ export const requestPush = async (subscription: PushSubscription) => {
   await sendLog(`Push request result: ${message}`);
 };
 
-/** END METHODS **/
+
+/** INSTALLATION **/
 
 self.skipWaiting();
 clientsClaim();
 precacheAndRoute(self.__WB_MANIFEST);
 
+
+/** VARIABLES **/
+
 let subscription: PushSubscription | null = null;
 
-self.addEventListener('activate', async () => {
-  sendLog('Sevice worker is active');
-  subscription = await registerPushSubscription();
-});
+/** STARTUP **/
+
+sendLog('Service worker is running');
+subscription = await registerPushSubscription();
+
+/** EVENT HANDLERS **/
 
 self.addEventListener('message', (event) => {
   sendLog(`${event.data.type} event received by service worker`);
@@ -132,3 +138,4 @@ self.addEventListener('push', (event) => {
 
   event.waitUntil(all);
 });
+
