@@ -1,5 +1,8 @@
 name: Deploy
 
+env:
+  VITE_VAPID_KEY: BGdL595OYfn0whXOJSJfrKsQu0hE4XDm3mH_F8a00cdOqbPXcCyTljPWuIU_inEJNYkmjCUr9eAmiIJnvmkKxVY
+
 on:
   push:
     branches:
