@@ -14,7 +14,7 @@ declare const self: ServiceWorkerGlobalScope;
 
 /** METHODS **/
 
-export const sendLog = async (message: string) => {
+const sendLog = async (message: string) => {
   console.info(message);
   const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
 
@@ -26,7 +26,7 @@ export const sendLog = async (message: string) => {
   });
 };
 
-export const showBadge = (count: number): Promise<void> => {
+const showBadge = (count: number): Promise<void> => {
   if ('setAppBadge' in self.navigator) {
     return self.navigator.setAppBadge(count).then(() => sendLog('Badge displayed'));
   }
@@ -34,7 +34,7 @@ export const showBadge = (count: number): Promise<void> => {
   return Promise.resolve();
 };
 
-export const registerPushSubscription = async (): Promise<PushSubscription | null> => {
+const registerPushSubscription = async (): Promise<PushSubscription | null> => {
   if ('pushManager' in self.registration && typeof self.registration.pushManager.subscribe === 'function') {
     await sendLog('Registering a push subscription');
     try {
@@ -51,7 +51,7 @@ export const registerPushSubscription = async (): Promise<PushSubscription | nul
   return null;
 };
 
-export const showNotification = async () => {
+const showNotification = async () => {
   if (Notification.permission !== 'granted') {
     sendLog('No permission to show notifications');
     return;
@@ -68,7 +68,7 @@ export const showNotification = async () => {
   }
 };
 
-export const requestPush = async (subscription: PushSubscription) => {
+const requestPush = async (subscription: PushSubscription) => {
   const result = await fetch('https://rockstar-push.glitch.me/send-push', {
     method: 'post',
     body: JSON.stringify(subscription, null, 2),
