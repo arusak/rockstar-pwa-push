@@ -80,13 +80,11 @@ export const requestPush = async (subscription: PushSubscription) => {
   await sendLog(`Push request result: ${message}`);
 };
 
-
 /** INSTALLATION **/
 
 self.skipWaiting();
 clientsClaim();
 precacheAndRoute(self.__WB_MANIFEST);
-
 
 /** VARIABLES **/
 
@@ -94,8 +92,10 @@ let subscription: PushSubscription | null = null;
 
 /** STARTUP **/
 
-sendLog('Service worker is running');
-subscription = await registerPushSubscription();
+(async () => {
+  sendLog('Service worker is running');
+  subscription = await registerPushSubscription();
+})();
 
 /** EVENT HANDLERS **/
 
