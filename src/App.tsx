@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LogView } from 'components/LogView/LogView';
 import s from 'App.module.css';
 import { Check } from 'components/Check/Check';
@@ -6,6 +6,15 @@ import { Check } from 'components/Check/Check';
 function App() {
   const [showRequestButton, setShowRequestButton] = useState(!(window.Notification?.permission === 'granted'));
   const [permissionGranted, setPermissionGranted] = useState(window.Notification?.permission === 'granted');
+
+  useEffect(() => {
+    addEventListener('pageshow', async () => {
+      const registration = await navigator.serviceWorker?.ready;
+      registration.active?.postMessage(
+        { type: 'APP_OPEN' }
+      );
+    });
+  }, []);
 
   const requestNotificationPermission = async () => {
     const permission = await window.Notification.requestPermission();
@@ -22,7 +31,6 @@ function App() {
     }
 
     const registration = await navigator.serviceWorker?.ready;
-
     registration.active?.postMessage(
       { type: 'SEND_NOTIFICATION' }
     );

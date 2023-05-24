@@ -100,7 +100,7 @@ let subscription: PushSubscription | null = null;
 /** EVENT HANDLERS **/
 
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SEND_NOTIFICATION') {
+  if (event.data?.type === 'SEND_NOTIFICATION') {
     const promises: Promise<unknown>[] = [];
 
     promises.push(showNotification());
@@ -112,11 +112,17 @@ self.addEventListener('message', (event) => {
     event.waitUntil(Promise.all(promises));
   }
 
-  if (event.data && event.data.type === 'REQUEST_PUSH') {
+  if (event.data?.type === 'REQUEST_PUSH') {
     if (subscription) {
       event.waitUntil(requestPush(subscription));
     } else {
       event.waitUntil(sendLog('Unable to request a push: no subscription'));
+    }
+  }
+
+  if (event.data?.type === 'APP_OPEN') {
+    if ('clearAppBadge' in self.navigator) {
+      event.waitUntil(self.navigator.clearAppBadge());
     }
   }
 });
