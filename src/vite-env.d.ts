@@ -2,3 +2,5 @@
 interface ImportMetaEnv {
   VITE_VAPID_KEY: string;
 }
+
+const __BUILD__: string;

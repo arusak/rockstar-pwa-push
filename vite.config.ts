@@ -62,7 +62,9 @@ export default defineConfig(({ mode }) => {
       }),
       cssModulesDevClassNames()
     ],
-    resolve: {},
+    define: {
+      "__BUILD__": JSON.stringify(new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'short'}).format(new Date()))
+    },
     css: {
       devSourcemap: true,
     },
