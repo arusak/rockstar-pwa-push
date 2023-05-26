@@ -63,7 +63,7 @@ export default defineConfig(({ mode }) => {
       cssModulesDevClassNames()
     ],
     define: {
-      "__BUILD__": JSON.stringify(new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'short'}).format(new Date()))
+      "import.meta.env.VITE_BUILD": JSON.stringify(new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'short'}).format(new Date()))
     },
     css: {
       devSourcemap: true,

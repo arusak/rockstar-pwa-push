@@ -5,13 +5,15 @@ import { clientsClaim } from 'workbox-core';
 
 declare const self: ServiceWorkerGlobalScope;
 
-console.info(`Service worker build ${__BUILD__}`)
+console.info(`Service worker build ${import.meta.env.VITE_BUILD || 'unknown'}`);
 
 /** METHODS **/
 
 const sendLog = async (message: string) => {
   console.info(message);
   const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
+
+  console.log(clients);
 
   clients.forEach(client => {
     client.postMessage({

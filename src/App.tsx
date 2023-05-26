@@ -74,7 +74,7 @@ function App() {
           <div className={s.api}><Check checked={'PushManager' in window}/> Push</div>
           <div className={s.api}><Check checked={'setAppBadge' in window.navigator}/> Badging</div>
         </div>
-        <div className={s.build}>{__BUILD__}</div>
+        <div className={s.build}>{import.meta.env.VITE_BUILD}</div>
       </div>
     </div>
   );
