@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { LogView } from 'components/LogView/LogView';
 import s from 'App.module.css';
-import { Check } from 'components/Check/Check';
+import { StatusView } from 'components/StatusView/StatusView';
 
 function App() {
   const [showRequestButton, setShowRequestButton] = useState(!(window.Notification?.permission === 'granted'));
   const [permissionGranted, setPermissionGranted] = useState(window.Notification?.permission === 'granted');
+
+  const [tab, setTab] = useState<'status' | 'log'>('status');
 
   useEffect(() => {
     document.addEventListener('visibilitychange', async () => {
@@ -54,28 +56,29 @@ function App() {
   return (
     <div className={s.wrapper}>
       <div className={s.buttons}>
-        {showRequestButton && <button onClick={requestNotificationPermission}>
+        {showRequestButton && <button className={'button'} onClick={requestNotificationPermission}>
           Request notifications permission
         </button>}
-        {permissionGranted && <button onClick={sendLocalNotification}>
+        {permissionGranted && <button className={'button'} onClick={sendLocalNotification}>
           Show local notification
         </button>}
-        {permissionGranted && <button onClick={requestPush}>
+        {permissionGranted && <button className={'button'} onClick={requestPush}>
           Request push from server
         </button>}
       </div>
 
-      <LogView className={s.log}/>
-
-      <div className={s.support}>
-        <h1>Your browser's supported APIs:</h1>
-        <div className={s.apis}>
-          <div className={s.api}><Check checked={'Notification' in window}/> Notification</div>
-          <div className={s.api}><Check checked={'PushManager' in window}/> Push</div>
-          <div className={s.api}><Check checked={'setAppBadge' in window.navigator}/> Badging</div>
+      <div className={s.tabContainer}>
+        <div className={s.tabSelect}>
+          <button className={`${s.tabButton} ${tab === 'status' && s.selected}`}
+                  onClick={() => setTab('status')}>Status
+          </button>
+          <button className={`${s.tabButton} ${tab === 'log' && s.selected}`} onClick={() => setTab('log')}>Log</button>
         </div>
-        <div className={s.build}>{import.meta.env.VITE_BUILD}</div>
+        <div className={`${s.tabContent} ${tab !== 'status' ? s.hidden : ''}`}><StatusView/></div>
+        <div className={`${s.tabContent} ${tab !== 'log' ? s.hidden : ''}`}><LogView/></div>
       </div>
+
+      <div className={s.build}>Build: {import.meta.env.VITE_BUILD}</div>
     </div>
   );
 }

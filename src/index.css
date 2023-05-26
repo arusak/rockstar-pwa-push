@@ -1,11 +1,15 @@
 :root {
+  --text-color: #224;
+  --bg-color: #ff7c25;
+
   font-family: Inter, 'Segoe UI', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-size: 12px;
+  height: 100%;
 
-  color: #224;
-  background-color: #ff7c25;
+  color: var(--text-color);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,10 +20,8 @@
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  height: 100%;
   /* prevent zooming and panning */
   touch-action: none;
 }
@@ -31,13 +33,22 @@ h1 {
 }
 
 button {
+  font-size: 1em;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto white;
+  outline-color: -webkit-focus-ring-color;
+}
+
+.button {
   border-radius: 12px;
   border: none;
   padding: 0.6em 1.2em;
-  font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
   background-image: linear-gradient(to top, #FF512F 0%, #f07a19 51%, #FF512F 100%);
   background-size: auto 200%;
   transition: 0.5s;
@@ -45,16 +56,16 @@ button {
   box-shadow: 1px 1.5px 1px rgba(140, 55, 6, 0.8);
 }
 
-button:hover {
+
+.button:hover {
   background-position: bottom center;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+hr {
+  border-color: var(--border-color);
+  border-block-start: none;
 }
 
 #root {
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
 }

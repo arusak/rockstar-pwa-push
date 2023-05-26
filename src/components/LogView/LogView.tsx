@@ -1,11 +1,7 @@
 import { useEffect, useState, FC } from 'react';
 import s from './LogView.module.css';
 
-type Props = {
-  className: string
-}
-
-export const LogView: FC<Props> = ({ className }) => {
+export const LogView: FC = () => {
   const [entries, setEntries] = useState<string[]>([]);
 
   useEffect(() => {
@@ -22,7 +18,6 @@ export const LogView: FC<Props> = ({ className }) => {
   }, []);
 
   return <div className={s.wrapper}>
-    <h1>Logs:</h1>
-    <div className={className} style={{ whiteSpace: 'break-spaces' }}>{entries.join('\n')}</div>
+    <div className={s.content}>{entries.join('\n')}</div>
   </div>;
 };

@@ -9,11 +9,10 @@ console.info(`Service worker build ${import.meta.env.VITE_BUILD || 'unknown'}`);
 
 /** METHODS **/
 
-const sendLog = async (message: string) => {
-  console.info(message);
+const send = async (type: string, message?: string) => {
   const clients = await self.clients.matchAll({ includeUncontrolled: true, type: 'window' });
 
-  console.log(clients);
+  // console.log(clients);
 
   clients.forEach(client => {
     client.postMessage({
@@ -21,6 +20,11 @@ const sendLog = async (message: string) => {
       message
     });
   });
+};
+
+const sendLog =  (message: string) => {
+  console.info(message);
+  return send('LOG', message)
 };
 
 const showBadge = (count: number): Promise<void> => {
@@ -40,6 +44,7 @@ const registerPushSubscription = async (): Promise<PushSubscription | null> => {
         applicationServerKey: import.meta.env.VITE_VAPID_KEY
       });
       await sendLog(`Subscribed successfully`);
+      await send('SUB');
       return subscription;
     } catch (e) {
       await sendLog(`Unable to subscribe. ${e}`);
