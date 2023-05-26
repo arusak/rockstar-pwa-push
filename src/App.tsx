@@ -8,11 +8,13 @@ function App() {
   const [permissionGranted, setPermissionGranted] = useState(window.Notification?.permission === 'granted');
 
   useEffect(() => {
-    addEventListener('pageshow', async () => {
-      const registration = await navigator.serviceWorker?.ready;
-      registration.active?.postMessage(
-        { type: 'APP_OPEN' }
-      );
+    document.addEventListener('visibilitychange', async () => {
+      if (document.visibilityState === 'visible') {
+        const registration = await navigator.serviceWorker?.ready;
+        registration.active?.postMessage(
+          { type: 'APP_OPEN' }
+        );
+      }
     });
   }, []);
 
