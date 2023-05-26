@@ -71,7 +71,7 @@ const showNotification = async () => {
 };
 
 const requestPush = async (subscription: PushSubscription) => {
-  const result = await fetch('https://rockstar-push.glitch.me/send-push', {
+  const result = await fetch(import.meta.env.VITE_PUSH_URL, {
     method: 'post',
     body: JSON.stringify(subscription, null, 2),
     headers: {
