@@ -3,13 +3,6 @@
 import { precacheAndRoute } from 'workbox-precaching';
 import { clientsClaim } from 'workbox-core';
 
-declare global {
-  interface WorkerNavigator {
-    setAppBadge: (contents?: number) => Promise<void>;
-    clearAppBadge: () => Promise<void>;
-  }
-}
-
 declare const self: ServiceWorkerGlobalScope;
 
 /** METHODS **/
