@@ -5,6 +5,8 @@ import { clientsClaim } from 'workbox-core';
 
 declare const self: ServiceWorkerGlobalScope;
 
+console.info(`Service worker build ${__BUILD__}`)
+
 /** METHODS **/
 
 const sendLog = async (message: string) => {
