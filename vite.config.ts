@@ -4,7 +4,7 @@ import pathsPlugin from 'vite-tsconfig-paths';
 import checkerPlugin from 'vite-plugin-checker';
 import { VitePWA } from 'vite-plugin-pwa';
 import { readFileSync } from 'fs';
-import { cssModulesDevClassNames } from './vite-css-modules-dev-classnames';
+import {readableCssModules} from 'vite-plugin-readable-css-modules';
 
 export default defineConfig(({ mode }) => {
   const { SSL_PRIVATE_KEY_PATH, SSL_PUBLIC_KEY_PATH } = loadEnv(mode, process.cwd(), '');
@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => {
           type: 'module',
         },
       }),
-      cssModulesDevClassNames()
+      readableCssModules()
     ],
     define: {
       "import.meta.env.VITE_BUILD": JSON.stringify(new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'short'}).format(new Date()))
