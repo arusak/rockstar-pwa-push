@@ -6,7 +6,6 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { readFileSync } from 'fs';
 import { cssModulesDevClassNames } from './vite-css-modules-dev-classnames';
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const { SSL_PRIVATE_KEY_PATH, SSL_PUBLIC_KEY_PATH } = loadEnv(mode, process.cwd(), '');
   return {
@@ -69,11 +68,14 @@ export default defineConfig(({ mode }) => {
       devSourcemap: true,
     },
     server: {
-      port: 3000,
-      https: {
-        key: SSL_PRIVATE_KEY_PATH && readFileSync(SSL_PRIVATE_KEY_PATH),
-        cert: SSL_PUBLIC_KEY_PATH && readFileSync(SSL_PUBLIC_KEY_PATH),
-      }
+      port: 3333,
+      https:
+          SSL_PRIVATE_KEY_PATH && SSL_PUBLIC_KEY_PATH
+              ? {
+                key: readFileSync(SSL_PRIVATE_KEY_PATH),
+                cert: readFileSync(SSL_PUBLIC_KEY_PATH),
+              }
+              : undefined,
     },
     build: {
       outDir: 'build',
